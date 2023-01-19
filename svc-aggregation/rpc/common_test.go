@@ -16,6 +16,7 @@ package rpc
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -130,7 +131,7 @@ func mockDeleteSubscription(uuid string) (*eventsproto.EventSubResponse, error) 
 	}, nil
 }
 
-func mockEventNotification(systemID, eventType, collectionType string) {
+func mockEventNotification(ctx context.Context, systemID, eventType, collectionType string) {
 	return
 }
 
@@ -158,19 +159,19 @@ func mockContactClientForDelete(url, method, token string, odataID string, body 
 	return nil, fmt.Errorf("InvalidRequest")
 }
 
-func EventFunctionsForTesting(s []string) {}
+func EventFunctionsForTesting(ctx context.Context, s []string) {}
 
-func PostEventFunctionForTesting(s []string, name string) {}
+func PostEventFunctionForTesting(ctx context.Context, s []string, name string) {}
 
-func GetPluginStatusForTesting(plugin agmodel.Plugin) bool {
+func GetPluginStatusForTesting(ctx context.Context, plugin agmodel.Plugin) bool {
 	return true
 }
 
-func mockIsAuthorized(sessionToken string, privileges, oemPrivileges []string) response.RPC {
+func mockIsAuthorized(sessionToken string, privileges, oemPrivileges []string) (response.RPC, error) {
 	if sessionToken == "invalidToken" {
-		return common.GeneralError(http.StatusUnauthorized, response.NoValidSession, "", nil, nil)
+		return common.GeneralError(http.StatusUnauthorized, response.NoValidSession, "", nil, nil), nil
 	}
-	return common.GeneralError(http.StatusOK, response.Success, "", nil, nil)
+	return common.GeneralError(http.StatusOK, response.Success, "", nil, nil), nil
 }
 
 func getSessionUserNameForTesting(sessionToken string) (string, error) {
@@ -193,8 +194,8 @@ func createTaskForTesting(sessionUserName string) (string, error) {
 	return "some/Task", nil
 }
 
-func mockSubscribeEMB(pluginID string, list []string) {
-	return
+func mockSubscribeEMB(pluginID string, list []string) error {
+	return nil
 }
 
 func mockCreateChildTask(sessionID, taskID string) (string, error) {
@@ -278,7 +279,7 @@ func mockDeviceData(uuid string, device agmodel.Target) error {
 	return nil
 }
 
-func mockContactClient(url, method, token string, odataID string, body interface{}, credentials map[string]string) (*http.Response, error) {
+func mockContactClient(ctx context.Context, url, method, token string, odataID string, body interface{}, credentials map[string]string) (*http.Response, error) {
 	var bData agmodel.SaveSystem
 	bBytes, _ := json.Marshal(body)
 	json.Unmarshal(bBytes, &bData)

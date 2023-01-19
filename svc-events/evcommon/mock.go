@@ -17,6 +17,7 @@ package evcommon
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -41,11 +42,11 @@ func stubEMBConsume(topic string) {
 }
 
 // MockIsAuthorized is for mocking up of authorization
-func MockIsAuthorized(sessionToken string, privileges, oemPrivileges []string) response.RPC {
+func MockIsAuthorized(sessionToken string, privileges, oemPrivileges []string) (response.RPC, error) {
 	if sessionToken != "validToken" && sessionToken != "token" {
-		return common.GeneralError(http.StatusUnauthorized, response.NoValidSession, "", nil, nil)
+		return common.GeneralError(http.StatusUnauthorized, response.NoValidSession, "", nil, nil), nil
 	}
-	return common.GeneralError(http.StatusOK, response.Success, "", nil, nil)
+	return common.GeneralError(http.StatusOK, response.Success, "", nil, nil), nil
 }
 
 // MockGetSessionUserName is for mocking up of session user name
@@ -76,7 +77,7 @@ func GetEncryptedKey(key []byte) ([]byte, error) {
 }
 
 // MockContactClient is for mocking up of contacting client
-func MockContactClient(url, method, token string, odataID string, body interface{}, credentials map[string]string) (*http.Response, error) {
+func MockContactClient(ctx context.Context, url, method, token string, odataID string, body interface{}, credentials map[string]string) (*http.Response, error) {
 	if url == "https://localhost:1234/ODIM/v1/Subscriptions" {
 		if method == http.MethodDelete {
 			body := `{"MessageId": "` + response.Success + `"}`

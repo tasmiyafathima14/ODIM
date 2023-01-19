@@ -16,6 +16,7 @@
 package evcommon
 
 import (
+	"context"
 	"net/http"
 	"testing"
 
@@ -58,7 +59,7 @@ func TestMockIsAuthorized(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := MockIsAuthorized(tt.args.sessionToken, tt.args.privileges, tt.args.oemPrivileges); got.StatusCode != tt.want.StatusCode {
+			if got, _ := MockIsAuthorized(tt.args.sessionToken, tt.args.privileges, tt.args.oemPrivileges); got.StatusCode != tt.want.StatusCode {
 				t.Errorf("MockIsAuthorized() = %v, want %v", got, tt.want)
 			}
 		})
@@ -263,7 +264,7 @@ func TestMockContactClient(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, _ := MockContactClient(tt.args.url, tt.args.method, tt.args.token, tt.args.odataID, tt.args.body, tt.args.credentials)
+			got, _ := MockContactClient(context.TODO(), tt.args.url, tt.args.method, tt.args.token, tt.args.odataID, tt.args.body, tt.args.credentials)
 			if got.StatusCode != tt.want.StatusCode {
 				t.Errorf("MockContactClient() = %v, want %v", got, tt.want)
 			}
