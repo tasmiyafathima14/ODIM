@@ -524,7 +524,7 @@ def scale_in_k8s():
 
 		os.chdir(ODIMRA_SRC_PATH)
 		logger.info("Performing post-uninstall action on nodes %s", nodes_list)
-
+		delete_k8_images(K8S_INVENTORY_FILE, nodes_list)
 		odimra_rm_cmd = 'ansible-playbook -i {host_conf_file} --become --become-user=root \
 				--extra-vars "host={nodes} helm_config_file={helm_config_file} ignore_err=True" post_uninstall.yaml'.format( \
 						host_conf_file=K8S_INVENTORY_FILE, nodes=nodes_list, helm_config_file=CONTROLLER_CONF_FILE)
@@ -534,7 +534,7 @@ def scale_in_k8s():
 		else:
 			logger.info("Post-uninstall action was successful on nodes %s", nodes_list)
 
-		delete_k8_images(K8S_INVENTORY_FILE,nodes_list)
+		#delete_k8_images(K8S_INVENTORY_FILE,nodes_list)
 		# remove copy of controller config file created
 		os.remove(helm_config_file)
 		os.remove(odimra_config_file)
