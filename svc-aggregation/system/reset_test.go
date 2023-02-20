@@ -28,6 +28,7 @@ package system
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -76,17 +77,17 @@ func mockPluginData(t *testing.T, pluginID string) error {
 		plugin.ManagerUUID = "1234877451-1234"
 	case "ILO":
 		plugin.ManagerUUID = "1234877451-1233"
-	case "XAuthPlugin_v1.0.0":
+	case "XAuthPlugin_v2.0.0":
 		plugin.PreferredAuthType = "XAuthToken"
-	case "XAuthPluginFail_v1.0.0":
+	case "XAuthPluginFail_v2.0.0":
 		plugin.PreferredAuthType = "XAuthToken"
 		plugin.Username = "incorrectusername"
-	case "NoStatusPlugin_v1.0.0":
+	case "NoStatusPlugin_v2.0.0":
 		plugin.Username = "noStatusUser"
 		plugin.ManagerUUID = "1234877451-1235"
-	case "GRF_v1.0.0":
+	case "GRF_v2.0.0":
 		plugin.ManagerUUID = "1234877451-1234"
-	case "ILO_v1.0.0":
+	case "ILO_v2.0.0":
 		plugin.ManagerUUID = "1234877451-1233"
 	}
 	connPool, err := common.GetDBConnection(common.OnDisk)
@@ -110,14 +111,14 @@ func mockDeviceData(uuid string, device agmodel.Target) error {
 	return nil
 }
 
-func mockIsAuthorized(sessionToken string, privileges, oemPrivileges []string) response.RPC {
+func mockIsAuthorized(sessionToken string, privileges, oemPrivileges []string) (response.RPC, error) {
 	if sessionToken != "validToken" {
-		return common.GeneralError(http.StatusUnauthorized, response.NoValidSession, "", nil, nil)
+		return common.GeneralError(http.StatusUnauthorized, response.NoValidSession, "", nil, nil), nil
 	}
-	return common.GeneralError(http.StatusOK, response.Success, "", nil, nil)
+	return common.GeneralError(http.StatusOK, response.Success, "", nil, nil), nil
 }
 
-func mockContactClient(url, method, token string, odataID string, body interface{}, credentials map[string]string) (*http.Response, error) {
+func mockContactClient(ctx context.Context, url, method, token string, odataID string, body interface{}, credentials map[string]string) (*http.Response, error) {
 	if url == "" {
 		return nil, fmt.Errorf("InvalidRequest")
 	}
@@ -244,7 +245,7 @@ func mockContactClient(url, method, token string, odataID string, body interface
 		}, nil
 
 	} else if url == host+"/ODIM/v1/Status" {
-		body := `{"Version": "v1.0.0","EventMessageBus":{"EmbQueue":[{"EmbQueueName":"GRF"}]}}`
+		body := `{"Version": "v2.0.0","EventMessageBus":{"EmbQueue":[{"EmbQueueName":"GRF"}]}}`
 		if host == "https://100.0.0.3:9091" {
 			return nil, fmt.Errorf("plugin not reachable")
 		}
@@ -663,9 +664,10 @@ func TestPluginContact_ResetComputerSystem(t *testing.T) {
 			},
 		},
 	}
+	ctx := mockContext()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.p.Reset(tt.args.taskID, tt.args.sessionUserName, tt.args.req); !reflect.DeepEqual(got.StatusCode, tt.want.StatusCode) {
+			if got := tt.p.Reset(ctx, tt.args.taskID, tt.args.sessionUserName, tt.args.req); !reflect.DeepEqual(got.StatusCode, tt.want.StatusCode) {
 				t.Errorf("ExternalInterface.Reset() = %v, want %v", got, tt.want)
 			}
 		})
