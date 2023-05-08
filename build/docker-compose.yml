@@ -1,17 +1,18 @@
-#(C) Copyright [2020] Hewlett Packard Enterprise Development LP
-#(C) Copyright 2020 Intel Corporation
+# (C) Copyright [2020] Hewlett Packard Enterprise Development LP
+# (C) Copyright 2020 Intel Corporation
 #
-#Licensed under the Apache License, Version 2.0 (the "License"); you may
-#not use this file except in compliance with the License. You may obtain
-#a copy of the License at
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
 #
-#    http:#www.apache.org/licenses/LICENSE-2.0
-#
-#Unless required by applicable law or agreed to in writing, software
-#distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#License for the specific language governing permissions and limitations
+# http:#www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
 # under the License.
+--- 
 version: '2.4'
 
 services:
@@ -20,8 +21,8 @@ services:
       context: ./.
       dockerfile: ./etcd/Dockerfile.etcd
       args:
-          http_proxy: $http_proxy
-          https_proxy: $https_proxy
+        http_proxy: $http_proxy
+        https_proxy: $https_proxy
     container_name: odim_etcd
     image: odim_etcd:1.0
     hostname: etcd
@@ -63,8 +64,8 @@ services:
       context: ./.
       dockerfile: Redis/Dockerfile.redis
       args:
-          http_proxy: $http_proxy
-          https_proxy: $https_proxy
+        http_proxy: $http_proxy
+        https_proxy: $https_proxy
     image: odimra_redis2db
     hostname: redis
     restart: always
@@ -92,7 +93,7 @@ services:
     hostname: zookeeper
     restart: on-failure
     ports:
-     - '2181:2181'
+      - '2181:2181'
     external_links:
       - kafka
     stop_grace_period: 30s
@@ -119,7 +120,7 @@ services:
       context: ./.
       dockerfile: ./Kafka/Dockerfiles/Dockerfile.kafka
       args:
-          http_proxy: $http_proxy
+        http_proxy: $http_proxy
           https_proxy: $https_proxy
     container_name: odim_kafka
     image: odim_kafka:2.0
@@ -157,7 +158,7 @@ services:
       context: ./.
       dockerfile: odimra/Dockerfile.odimra
       args:
-          http_proxy: $http_proxy
+        http_proxy: $http_proxy
           https_proxy: $https_proxy
     hostname: odimra
     privileged: true
@@ -198,13 +199,14 @@ services:
       - '../build/odimra/managers.service:/etc/systemd/system/managers.service:rw'
       - '../build/odimra/update.service:/etc/systemd/system/update.service:rw'
       - '../build/odimra/licenses.service:/etc/systemd/system/licenses.service:rw'
-    command: bash -c "cp -r /var/odimra_config/ /etc/ && /var/tmp/edit_config.sh && rm -rf /var/odimra_config/* && /bin/start_odimra.sh"
+    command: bash -c "cp -r /var/odimra_config/ /etc/ && /var/tmp/edit_config.sh \ 
+                     && rm -rf /var/odimra_config/* && /bin/start_odimra.sh"
   grf_plugin:
     build:
       context: ./.
       dockerfile: RFPlugin/Dockerfile.plugin
       args:
-          http_proxy: $http_proxy
+        http_proxy: $http_proxy
           https_proxy: $https_proxy
     hostname: plugin
     restart: always
@@ -230,7 +232,8 @@ services:
       - '/etc/plugincert/odimra_kafka_client.key:/etc/plugin_certs/odimra_kafka_client.key:ro'
       - '/etc/plugincert/odimra_kafka_client.crt:/etc/plugin_certs/odimra_kafka_client.crt:ro'
       - '../build/RFPlugin/grf_plugin.service:/etc/systemd/system/grf_plugin.service:rw'
-    command: bash -c "cp -r /var/plugin_config/ /etc && /var/tmp/edit_config.sh && rm -rf /var/plugin_config/* && /bin/start_plugin.sh"
+    command: bash -c "cp -r /var/plugin_config/ /etc && /var/tmp/edit_config.sh \ 
+                     && rm -rf /var/plugin_config/* && /bin/start_plugin.sh"
   urp:
     build:
       context: plugin-unmanaged-racks/.
@@ -279,7 +282,7 @@ services:
       context: ./.
       dockerfile: DELLPlugin/Dockerfile.dell_plugin
       args:
-          http_proxy: $http_proxy
+        http_proxy: $http_proxy
           https_proxy: $https_proxy
     hostname: dell_plugin
     restart: always
@@ -305,7 +308,8 @@ services:
       - '/etc/plugincert/odimra_kafka_client.key:/etc/dell_plugin_certs/odimra_kafka_client.key:ro'
       - '/etc/plugincert/odimra_kafka_client.crt:/etc/dell_plugin_certs/odimra_kafka_client.crt:ro'
       - '../build/DELLPlugin/dell_plugin.service:/etc/systemd/system/dell_plugin.service:rw'
-    command: bash -c "cp -r /var/dell_plugin_config/ /etc && /var/tmp/dell_plugin-edit_config.sh && rm -rf /var/dell_plugin_config/* && /bin/start_plugin.sh"
+    command: bash -c "cp -r /var/dell_plugin_config/ /etc && /var/tmp/dell_plugin-edit_config.sh \
+                      && rm -rf /var/dell_plugin_config/* && /bin/start_plugin.sh"
   lenovo_plugin:
     build:
       context: ./.
@@ -337,4 +341,5 @@ services:
       - '/etc/plugincert/odimra_kafka_client.key:/etc/lenovo_plugin_certs/odimra_kafka_client.key:ro'
       - '/etc/plugincert/odimra_kafka_client.crt:/etc/lenovo_plugin_certs/odimra_kafka_client.crt:ro'
       - '../build/LenovoPlugin/lenovo_plugin.service:/etc/systemd/system/lenovo_plugin.service:rw'
-    command: bash -c "cp -r /var/lenovo_plugin_config/ /etc && /var/tmp/lenovo_plugin-edit_config.sh && rm -rf /var/lenovo_plugin_config/* && /bin/start_plugin.sh"
+    command: bash -c "cp -r /var/lenovo_plugin_config/ /etc && /var/tmp/lenovo_plugin-edit_config.sh \
+                     && rm -rf /var/lenovo_plugin_config/* && /bin/start_plugin.sh"
