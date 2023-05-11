@@ -86,8 +86,8 @@ services:
       context: ./.
       dockerfile: ./Kafka/Dockerfiles/Dockerfile.zookeeper
       args:
-          http_proxy: $http_proxy
-          https_proxy: $https_proxy
+        http_proxy: $http_proxy
+        https_proxy: $https_proxy
     container_name: odim_zookeeper
     image: odim_zookeeper:2.0
     hostname: zookeeper
