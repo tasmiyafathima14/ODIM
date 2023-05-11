@@ -209,7 +209,7 @@ services:
       dockerfile: RFPlugin/Dockerfile.plugin
       args:
         http_proxy: $http_proxy
-          https_proxy: $https_proxy
+        https_proxy: $https_proxy
     hostname: plugin
     restart: always
     privileged: true
