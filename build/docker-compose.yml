@@ -159,7 +159,7 @@ services:
       dockerfile: odimra/Dockerfile.odimra
       args:
         http_proxy: $http_proxy
-          https_proxy: $https_proxy
+        https_proxy: $https_proxy
     hostname: odimra
     privileged: true
     restart: always
