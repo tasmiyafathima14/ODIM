@@ -235,6 +235,14 @@ func (e *ExternalInterface) GetMetricReportDefinition(ctx context.Context, req *
 	resp.Body = resource
 	resp.StatusCode = http.StatusOK
 	resp.StatusMessage = response.Success
+	value, ok := resource["@Redfish.CollectionCapabilities"]
+    if (value == null)
+	{
+		fmt.Println("RedfishCapabilities is null")
+	}
+	else{
+	fmt.Println("Checking Redfish capabilities:",resource["@Redfish.CollectionCapabilities"])
+	}
 	respBody := fmt.Sprintf("%v", resp.Body)
 	l.LogWithFields(ctx).Debugf("final response for get metric report definition: %s", string(respBody))
 	return resp
