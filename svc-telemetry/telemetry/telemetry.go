@@ -152,7 +152,6 @@ func (e *ExternalInterface) GetMetricReportDefinitionCollection(ctx context.Cont
 	json.Unmarshal([]byte(data), &resource)
 	resp.Body = resource
 	resp.StatusCode = http.StatusOK
-	resp.StatusMessage = response.Success
 	value, ok := resource["@Redfish.CollectionCapabilities"]
 	fmt.Println("value",value)
 	 if ok { 
@@ -160,6 +159,7 @@ func (e *ExternalInterface) GetMetricReportDefinitionCollection(ctx context.Cont
 	} else {
 		 fmt.Println("redfish capabilities is null") 
 	}
+	resp.StatusMessage = response.Success
 	respBody := fmt.Sprintf("%v", resp.Body)
 	l.LogWithFields(ctx).Debugf("final response from get metric report definition collection: %s", string(respBody))
 	return resp
