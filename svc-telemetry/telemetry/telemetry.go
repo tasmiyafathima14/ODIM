@@ -120,6 +120,17 @@ func (e *ExternalInterface) GetMetricDefinitionCollection(ctx context.Context,re
 	}
 	var resource map[string]interface{}
 	json.Unmarshal([]byte(data), &resource)
+	value, ok := resource["@Redfish.CollectionCapabilities"]
+	if ok{
+        oData := value.(map[string]interface{})
+		oDataType, oDataTypeFound := oData["@odata.type"]
+		if oDataTypeFound {
+		  oData := oDataType.(string)
+		  if len(oData) == 0 {
+		     delete(resource, "@Redfish.CollectionCapabilities")
+		  }
+	    }
+	}
 	resp.Body = resource
 	resp.StatusCode = http.StatusOK
 	resp.StatusMessage = response.Success
@@ -150,15 +161,19 @@ func (e *ExternalInterface) GetMetricReportDefinitionCollection(ctx context.Cont
 	}
 	var resource map[string]interface{}
 	json.Unmarshal([]byte(data), &resource)
+	value, ok := resource["@Redfish.CollectionCapabilities"]
+	if ok{
+        oData := value.(map[string]interface{})
+		oDataType, oDataTypeFound := oData["@odata.type"]
+		if oDataTypeFound {
+		  oData := oDataType.(string)
+		  if len(oData) == 0 {
+		     delete(resource, "@Redfish.CollectionCapabilities")
+		  }
+	    }
+	}
 	resp.Body = resource
 	resp.StatusCode = http.StatusOK
-	value, ok := resource["@Redfish.CollectionCapabilities"]
-	fmt.Println("value",value)
-	 if ok { 
-	     fmt.Println("Checking Redfish capabilities:", value) 
-	} else {
-		 fmt.Println("redfish capabilities is null") 
-	}
 	resp.StatusMessage = response.Success
 	respBody := fmt.Sprintf("%v", resp.Body)
 	l.LogWithFields(ctx).Debugf("final response from get metric report definition collection: %s", string(respBody))
