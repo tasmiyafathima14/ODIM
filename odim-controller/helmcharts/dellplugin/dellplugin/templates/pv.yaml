@@ -3,7 +3,7 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: dellplugin-log
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     type: local
 spec:
@@ -13,7 +13,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   claimRef:
-    namespace: {{ .Values.odimra.namespace }}
+    namespace: {{.Values.odimra.namespace}}
     name: dellplugin-log-claim
   hostPath:
-    path: {{ .Values.dellplugin.logPath }}
+    path: {{.Values.dellplugin.logPath}}

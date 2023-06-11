@@ -1,8 +1,9 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
   name: dellplugin
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     app: dellplugin
 spec:
@@ -15,17 +16,17 @@ apiVersion: v1
 kind: Service
 metadata:
   name: dellplugin-events
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     app: dellplugin
 spec:
   type: NodePort
   ports:
-  - port: 45006
-    nodePort: {{ .Values.dellplugin.eventListenerNodePort }}
+    - port: 45006
+    nodePort: {{.Values.dellplugin.eventListenerNodePort}}
     protocol: TCP
-  {{ if eq .Values.odimra.haDeploymentEnabled false }}
+  {{if eq .Values.odimra.haDeploymentEnabled false}}
   externalTrafficPolicy: Local
-  {{ end }}
+  {{end}}
   selector:
     app: dellplugin

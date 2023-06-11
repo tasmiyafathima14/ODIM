@@ -1,8 +1,9 @@
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: etcd
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   annotations:
     secret.reloader.stakater.com/reload: "odimra-secret"
   labels:
@@ -26,11 +27,11 @@ spec:
       hostname: etcd
       subdomain: etcd
       securityContext:
-        fsGroup: {{ .Values.odimra.groupID }}
-        runAsUser: {{ .Values.odimra.userID }}
+        fsGroup: {{.Values.odimra.groupID}}
+        runAsUser: {{.Values.odimra.userID}}
       containers:
         - name: etcd
-          image: {{ .Values.odimra.imageRegistryAddress| default  }}etcd:{{ .Values.odimra.etcdImageTag }}
+          image: {{.Values.odimra.imageRegistryAddress| default}}etcd:{{.Values.odimra.etcdImageTag}}
           imagePullPolicy: IfNotPresent
           ports:
             - name: etcd-server
@@ -82,7 +83,7 @@ spec:
           secret:
             secretName: odimra-secret
             items:
-            - key: rootCAcrt
+              - key: rootCAcrt
               path: rootCA.crt
               mode: 0444
             - key: odimra_etcd_servercrt

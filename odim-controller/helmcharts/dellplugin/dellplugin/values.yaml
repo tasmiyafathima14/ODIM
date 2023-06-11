@@ -1,17 +1,18 @@
+---
 odimra:
-  namespace: 
+  namespace:
   groupID:
   haDeploymentEnabled:
 dellplugin:
-  eventListenerNodePort: 
+  eventListenerNodePort:
   imageTag: "2.2"
-  dellPluginRootServiceUUID: 
-  username: 
-  password: 
+  dellPluginRootServiceUUID:
+  username:
+  password:
   host: dellplugin
   eventHost: dellplugin
-  lbHost: 
-  lbPort: 
+  lbHost:
+  lbPort:
   logPath:
   logLevel: warn
   logFormat: syslog

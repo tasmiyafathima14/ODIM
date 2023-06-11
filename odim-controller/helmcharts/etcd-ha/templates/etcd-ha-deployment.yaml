@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: etcd1
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   annotations:
     secret.reloader.stakater.com/reload: "odimra-secret"
   labels:
@@ -28,19 +28,19 @@ spec:
       hostname: etcd1
       subdomain: etcd
       securityContext:
-        fsGroup: {{ .Values.odimra.groupID }}
-        runAsUser: {{ .Values.odimra.userID }}
+        fsGroup: {{.Values.odimra.groupID}}
+        runAsUser: {{.Values.odimra.userID}}
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: "kubernetes.io/hostname"
+              - matchExpressions:
+                - key: "kubernetes.io/hostname"
                 operator: In
-                values: [ {{ index .Values.hostname 0 }} ]
+                values: [ {{index .Values.hostname 0}} ]
       containers:
         - name: etcd1
-          image: {{ .Values.odimra.imageRegistryAddress| default  }}etcd:{{ .Values.odimra.etcdImageTag }}
+          image: {{.Values.odimra.imageRegistryAddress| default}}etcd:{{.Values.odimra.etcdImageTag}}
           imagePullPolicy: IfNotPresent
           ports:
             - name: etcd-server
@@ -94,7 +94,7 @@ spec:
           secret:
             secretName: odimra-secret
             items:
-            - key: rootCAcrt
+              - key: rootCAcrt
               path: rootCA.crt
               mode: 0444
             - key: odimra_etcd_servercrt
@@ -108,7 +108,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: etcd2
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   annotations:
     secret.reloader.stakater.com/reload: "odimra-secret"
   labels:
@@ -133,19 +133,19 @@ spec:
       hostname: etcd2
       subdomain: etcd
       securityContext:
-        fsGroup: {{ .Values.odimra.groupID }}
-        runAsUser: {{ .Values.odimra.userID }}
+        fsGroup: {{.Values.odimra.groupID}}
+        runAsUser: {{.Values.odimra.userID}}
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: "kubernetes.io/hostname"
+              - matchExpressions:
+                - key: "kubernetes.io/hostname"
                 operator: In
-                values: [ {{ index .Values.hostname 1 }} ]
+                values: [ {{index .Values.hostname 1}} ]
       containers:
         - name: etcd2
-          image: {{ .Values.odimra.imageRegistryAddress| default  }}etcd:{{ .Values.odimra.etcdImageTag }}
+          image: {{.Values.odimra.imageRegistryAddress| default}}etcd:{{.Values.odimra.etcdImageTag}}
           imagePullPolicy: IfNotPresent
           ports:
             - name: etcd-server
@@ -164,7 +164,7 @@ spec:
             - name: LISTEN_CLIENT_ADDR
               value: https://0.0.0.0:2379
             - name: INITIAL_ADV_ADDR
-              value: https://etcd2.etcd.{{ .Values.odimra.namespace }}.svc.cluster.local:2380
+              value: https://etcd2.etcd.{{.Values.odimra.namespace}}.svc.cluster.local:2380
             - name: INITIAL_CLUSTER
               value: "etcd1=https://etcd1.etcd.{{ .Values.odimra.namespace }}.svc.cluster.local:2380,\
 		      etcd2=https://etcd2.etcd.{{ .Values.odimra.namespace }}.svc.cluster.local:2380,\
@@ -199,7 +199,7 @@ spec:
           secret:
             secretName: odimra-secret
             items:
-            - key: rootCAcrt
+              - key: rootCAcrt
               path: rootCA.crt
               mode: 0444
             - key: odimra_etcd_servercrt
@@ -213,7 +213,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: etcd3
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   annotations:
     secret.reloader.stakater.com/reload: "odimra-secret"
   labels:
@@ -238,19 +238,19 @@ spec:
       hostname: etcd3
       subdomain: etcd
       securityContext:
-        fsGroup: {{ .Values.odimra.groupID }}
-        runAsUser: {{ .Values.odimra.userID }}
+        fsGroup: {{.Values.odimra.groupID}}
+        runAsUser: {{.Values.odimra.userID}}
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: "kubernetes.io/hostname"
+              - matchExpressions:
+                - key: "kubernetes.io/hostname"
                 operator: In
-                values: [ {{ index .Values.hostname 2 }} ]
+                values: [ {{index .Values.hostname 2}} ]
       containers:
         - name: etcd3
-          image: {{ .Values.odimra.imageRegistryAddress| default  }}etcd:{{ .Values.odimra.etcdImageTag }}
+          image: {{.Values.odimra.imageRegistryAddress| default}}etcd:{{.Values.odimra.etcdImageTag}}
           imagePullPolicy: IfNotPresent
           ports:
             - name: etcd-server
@@ -304,7 +304,7 @@ spec:
           secret:
             secretName: odimra-secret
             items:
-            - key: rootCAcrt
+              - key: rootCAcrt
               path: rootCA.crt
               mode: 0444
             - key: odimra_etcd_servercrt
