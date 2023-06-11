@@ -1,10 +1,11 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: redis-ha-ondisk
   name: redis-ha-ondisk-headless
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
 spec:
   type: ClusterIP
   clusterIP: None

@@ -3,7 +3,7 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: kafka-conf-pv
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     type: local
 spec:
@@ -14,15 +14,15 @@ spec:
     - ReadWriteOnce
   claimRef:
     name: kafka-conf-pvc
-    namespace: {{ .Values.odimra.namespace }}
+    namespace: {{.Values.odimra.namespace}}
   hostPath:
-    path: {{ .Values.odimra.kafkaConfPath | quote }}
+    path: {{.Values.odimra.kafkaConfPath | quote}}
 ---
 kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: kafka-data-pv
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     type: local
 spec:
@@ -33,15 +33,15 @@ spec:
     - ReadWriteOnce
   claimRef:
     name: kafka-data-pvc
-    namespace: {{ .Values.odimra.namespace }}
+    namespace: {{.Values.odimra.namespace}}
   hostPath:
-    path: {{ .Values.odimra.kafkaDataPath | quote }}
+    path: {{.Values.odimra.kafkaDataPath | quote}}
 ---
 kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: zookeeper-data-pv
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     type: local
 spec:
@@ -52,15 +52,15 @@ spec:
     - ReadWriteOnce
   claimRef:
     name: zookeeper-data-pvc
-    namespace: {{ .Values.odimra.namespace }}
+    namespace: {{.Values.odimra.namespace}}
   hostPath:
-    path: {{ .Values.odimra.zookeeperDataPath | quote }}
+    path: {{.Values.odimra.zookeeperDataPath | quote}}
 ---
 kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: zookeeper-conf-pv
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     type: local
 spec:
@@ -71,15 +71,15 @@ spec:
     - ReadWriteOnce
   claimRef:
     name: zookeeper-conf-pvc
-    namespace: {{ .Values.odimra.namespace }}
+    namespace: {{.Values.odimra.namespace}}
   hostPath:
-    path: {{ .Values.odimra.zookeeperConfPath | quote }}
+    path: {{.Values.odimra.zookeeperConfPath | quote}}
 ---
 kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: odimra-log
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     type: local
 spec:
@@ -89,16 +89,16 @@ spec:
   accessModes:
     - ReadWriteOnce
   claimRef:
-    namespace: {{ .Values.odimra.namespace }}
+    namespace: {{.Values.odimra.namespace}}
     name: odimra-log-claim
   hostPath:
-    path: {{ .Values.odimra.appsLogPath }}
+    path: {{.Values.odimra.appsLogPath}}
 ---
 kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: redis-inmemory-data
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     type: local
 spec:
@@ -108,16 +108,16 @@ spec:
   accessModes:
     - ReadWriteOnce
   claimRef:
-    namespace: {{ .Values.odimra.namespace }}
+    namespace: {{.Values.odimra.namespace}}
     name: redis-inmemory-data-claim
   hostPath:
-    path: {{ .Values.odimra.redisInmemoryDataPath }}
+    path: {{.Values.odimra.redisInmemoryDataPath}}
 ---
 kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: redis-ondisk-data
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     type: local
 spec:
@@ -127,16 +127,16 @@ spec:
   accessModes:
     - ReadWriteOnce
   claimRef:
-    namespace: {{ .Values.odimra.namespace }}
+    namespace: {{.Values.odimra.namespace}}
     name: redis-ondisk-data-claim
   hostPath:
-    path: {{ .Values.odimra.redisOndiskDataPath }}
+    path: {{.Values.odimra.redisOndiskDataPath}}
 ---
 kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: etcd-conf-pv
-  namespace:  {{ .Values.odimra.namespace }}
+  namespace:  {{.Values.odimra.namespace}}
   labels:
     type: local
 spec:
@@ -147,15 +147,15 @@ spec:
     - ReadWriteOnce
   claimRef:
     name: etcd-conf-pvc
-    namespace:  {{ .Values.odimra.namespace }}
+    namespace:  {{.Values.odimra.namespace}}
   hostPath:
-    path: {{ .Values.odimra.etcdConfPath | quote }}
+    path: {{.Values.odimra.etcdConfPath | quote}}
 ---
 kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: etcd-data-pv
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     type: local
 spec:
@@ -166,6 +166,6 @@ spec:
     - ReadWriteOnce
   claimRef:
     name: etcd-data-pvc
-    namespace: {{ .Values.odimra.namespace }}
+    namespace: {{.Values.odimra.namespace}}
   hostPath:
-    path: {{ .Values.odimra.etcdDataPath | quote }}
+    path: {{.Values.odimra.etcdDataPath | quote}}

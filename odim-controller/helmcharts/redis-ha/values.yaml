@@ -1,3 +1,4 @@
+---
 odimra:
   redisImageTag: "4.0"
   namespace:

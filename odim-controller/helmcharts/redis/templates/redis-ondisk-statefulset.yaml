@@ -1,8 +1,9 @@
-apiVersion: apps/v1 
+---
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: redis-ondisk
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     app: redis-ondisk
 spec:
@@ -26,7 +27,7 @@ spec:
           secret:
             secretName: odimra-secret
             items:
-            - key: rootCAcrt
+              - key: rootCAcrt
               path: rootCA.crt
               mode: 0444
             - key: odimra_servercrt
@@ -47,20 +48,20 @@ spec:
             - key: redis_ondisk_password
               path: redis_ondisk_password
               mode: 0444
-            {{- if eq .Values.odimra.messageBusType "Kafka" }}
+            {{- if eq .Values.odimra.messageBusType "Kafka"}}
             - key: odimra_kafka_clientcrt
               path: odimra_kafka_client.crt
               mode: 0444
             - key: odimra_kafka_clientkey
               path: odimra_kafka_client.key
               mode: 0444
-            {{- end }}
+            {{- end}}
       restartPolicy: Always
       securityContext:
-        runAsUser: {{ .Values.odimra.userID }}
+        runAsUser: {{.Values.odimra.userID}}
       containers:
       - name: redis
-        image: {{ .Values.odimra.imageRegistryAddress| default  }}redis:{{ .Values.odimra.redisImageTag }}
+        image: {{.Values.odimra.imageRegistryAddress| default}}redis:{{.Values.odimra.redisImageTag}}
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 6379
@@ -73,7 +74,7 @@ spec:
         env:
         - name: MASTER
           value: "true"
-        - name: REDIS_ONDISK_DB 
+        - name: REDIS_ONDISK_DB
           value: "true"
         - name: TLS_CERT_FILE
           value: "/etc/odimra_certs/odimra_server.crt"
@@ -81,12 +82,12 @@ spec:
           value: "/etc/odimra_certs/odimra_server.key"
         - name: TLS_CA_CERT_FILE
           value: "/etc/odimra_certs/rootCA.crt"
-        - name: REDIS_HA_REDIS_SERVICE_HOST 
+        - name: REDIS_HA_REDIS_SERVICE_HOST
           value: "redis-ondisk"
         - name: REDIS_HA_REDIS_SERVICE_PORT
           value: "6379"
-        - name: REDIS_DEFAULT_PASSWORD 
-          value: {{ .Values.odimra.redisOnDiskPassword }}
+        - name: REDIS_DEFAULT_PASSWORD
+          value: {{.Values.odimra.redisOnDiskPassword}}
         - name: ODIMRA_RSA_PRIVATE_FILE
           value: "/etc/odimra_certs/odimra_rsa.private"
         - name: ALLOW_EMPTY_PASSWORD
