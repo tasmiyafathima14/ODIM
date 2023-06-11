@@ -7,17 +7,17 @@
   block:
     - set_fact:
         cur_host_ip: "{{ hostvars[host_item].ansible_host }}"
-    
+
     - set_fact:
         serverlist: ["server {{ cur_host_ip }}:{{ odimra.apiNodePort }} max_fails=2 fail_timeout=10s;"]
-    
+
     - set_fact:
         serverlist: "{{ serverlist + [server] }}"
       with_items: "{{ groups.all }}"
       vars:
         server: "server {{ hostvars[item].ansible_host }}:{{ odimra.apiNodePort }} max_fails=2 fail_timeout=10s backup;"
       when: hostvars[item].ansible_host != cur_host_ip
-    
+
     - name: Update API proxy service conf for ipv4
       template:
         src: "roles/configure-proxy/templates/api_proxy_server.conf.j2"
@@ -32,7 +32,7 @@
           selfNodeIPv6: ""
           dualStack: "False"
       delegate_to: "{{ host_item }}"
-      when: nwPreference == 'ipv4'    
+      when: nwPreference == 'ipv4'
 
     - name: Update API proxy service conf for dualStack
       template:
@@ -48,7 +48,7 @@
           selfNodeIPv6: "{{ hostvars[inventory_hostname].ipv6 }}"
           dualStack: "True"
       delegate_to: "{{ host_item }}"
-      when: nwPreference == 'dualStack'    
+      when: nwPreference == 'dualStack'
 
     - name: Get list of plugins under plugin helm charts path
       find:
@@ -57,7 +57,7 @@
       register: plugin_packages
       delegate_to: localhost
       when: odimPluginPath is defined
-    
+
     - name: Call plugin pre-install scripts
       include_tasks: roles/update-proxy-conf/tasks/plugins.yaml
       loop: "{{ plugin_packages.files }}"

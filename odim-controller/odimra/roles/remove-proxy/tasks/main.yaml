@@ -8,7 +8,7 @@
 - name: Remove nginx and dependent packages
   apt:
     pkg:
-    - nginx
+      - nginx
     - nginx-common
     - nginx-core
     force_apt_get: yes

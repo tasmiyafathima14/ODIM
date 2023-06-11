@@ -1,3 +1,4 @@
+---
 - name: Check if {{ item.path.split('/')[-1] }}.sh exists
   stat:
     path: "{{ helm_charts_path }}/{{ item.path.split('/')[-1] }}/{{ item.path.split('/')[-1] }}.sh"

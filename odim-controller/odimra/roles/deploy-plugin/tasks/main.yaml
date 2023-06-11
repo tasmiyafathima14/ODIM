@@ -6,41 +6,41 @@
 
 - name: Set current_user fact
   set_fact:
-    current_user: "{{ get_user.stdout }}"
+    current_user: "{{get_user.stdout}}"
 
 - name: Copying helm config file
   copy:
-    src: "{{ helm_config_file }}"
-    dest: "{{ values_file_path }}"
-    owner: "{{ current_user }}"
-    group: "{{ current_user }}"
+    src: "{{helm_config_file}}"
+    dest: "{{values_file_path}}"
+    owner: "{{current_user}}"
+    group: "{{current_user}}"
     mode: 0640
 
 - name: Include user defined configurations
-  include_vars: "{{ helm_config_file }}"
+  include_vars: "{{helm_config_file}}"
 
 - name: Cleanup existing plugin package on host nodes
   file:
-    path: "{{ helm_charts_path }}/{{ release_name }}"
+    path: "{{helm_charts_path}}/{{release_name}}"
     state: absent
 
 - name: Copy plugin package files to host nodes
   copy:
-    src: "{{ odimPluginPath }}/{{ release_name }}"
-    dest: "{{ helm_charts_path }}/"
-    owner: "{{ current_user }}"
-    group: "{{ current_user }}"
+    src: "{{odimPluginPath}}/{{release_name}}"
+    dest: "{{helm_charts_path}}/"
+    owner: "{{current_user}}"
+    group: "{{current_user}}"
     mode: 0750
   delegate_to: "{{ item }}"
   loop:
     "{{ groups['kube_node'] }}"
 #Use below when container manager is docker
-    #- name: Load docker image of {{ release_name }}
-    #command: "{{ docker_bin_path }} load -i {{ helm_charts_path }}/{{ release_name }}/{{ release_name }}.tar"
-    #delegate_to: "{{ item }}"
-    #loop:
-    #"{{ groups['kube_node'] }}"
-#Use below when container manager is containerd
+    # - name: Load docker image of {{ release_name }}
+    # command: "{{ docker_bin_path }} load -i {{ helm_charts_path }}/{{ release_name }}/{{ release_name }}.tar"
+    # delegate_to: "{{ item }}"
+    # loop:
+    # "{{ groups['kube_node'] }}"
+# Use below when container manager is containerd
 - name: Load docker image of {{ release_name }}
   command: "{{ docker_bin_path }}  -n=k8s.io image  import  {{ helm_charts_path }}/{{ release_name }}/{{ release_name }}.tar"
   delegate_to: "{{ item }}"

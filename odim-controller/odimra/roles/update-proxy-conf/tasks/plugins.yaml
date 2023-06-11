@@ -42,8 +42,8 @@
           pluginServerList: "{{ pluginserverlist|join('\n')|indent(8, True) }}"
           dualStack: "False"
           virtualIPv6: ""
-          selfNodeIPv6: "" 
-      when: nwPreference == 'ipv4'  
+          selfNodeIPv6: ""
+      when: nwPreference == 'ipv4'
       loop_control:
         loop_var: plugin_item
       delegate_to: "{{ host_item }}"
@@ -60,7 +60,7 @@
           dualStack: "True"
           virtualIPv6: "{{ odimra.virtualIPv6 }}"
           selfNodeIPv6: "{{ hostvars[inventory_hostname].ip6 }}"
-      when: nwPreference == 'dualStack'  
+      when: nwPreference == 'dualStack'
       loop_control:
         loop_var: plugin_item
       delegate_to: "{{ host_item }}"

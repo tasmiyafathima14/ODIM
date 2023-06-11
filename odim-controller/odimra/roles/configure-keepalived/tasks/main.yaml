@@ -38,7 +38,7 @@
   shell: netstat -ie | grep -B1 "{{ cur_host_ip }}" | head -n1 | awk '{print $1}' | cut -d':' -f1
   register: interface
 
-- set_fact: 
+- set_fact:
     interfaceName: "{{ interface.stdout }}"
 
 - name: Install keepalived packages

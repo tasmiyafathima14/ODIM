@@ -8,7 +8,7 @@
 - name: Remove keepalived and dependent packages
   apt:
     pkg:
-    - keepalived
+      - keepalived
     force_apt_get: yes
     autoremove: yes
     purge: yes

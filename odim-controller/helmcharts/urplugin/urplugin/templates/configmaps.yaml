@@ -1,9 +1,10 @@
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: urplugin-config
-  namespace: {{ .Values.odimra.namespace }}
-data: 
+  namespace: {{.Values.odimra.namespace}}
+data:
   config.yaml: |
     Host: {{ .Values.urplugin.host }}
     Port: 45007
