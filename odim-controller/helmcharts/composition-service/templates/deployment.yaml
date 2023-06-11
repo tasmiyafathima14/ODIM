@@ -1,12 +1,13 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: composition-service
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   annotations:
     secret.reloader.stakater.com/reload: "odimra-secret"
 spec:
-  replicas: {{ .Values.ReplicaCount | default 1}}
+  replicas: {{.Values.ReplicaCount | default 1}}
   selector:
     matchLabels:
       app: composition-service
@@ -15,14 +16,14 @@ spec:
       labels:
         app: composition-service
       annotations:
-        rollme: {{ randAlphaNum 5 | quote }}
+        rollme: {{randAlphaNum 5 | quote}}
     spec:
       hostname: composition-service
       volumes:
         - name: odimra-config-vol
           projected:
             sources:
-            - configMap:
+              - configMap:
                 name: odimra-config
             - configMap:
                 name: odimra-platformconfig
@@ -30,14 +31,14 @@ spec:
           configMap:
             name: configure-hosts
             items:
-            - key: hosts
+              - key: hosts
               path: host.append
               mode: 0644
         - name: odimra-secret
           secret:
             secretName: odimra-secret
             items:
-            - key: rootCAcrt
+              - key: rootCAcrt
               path: rootCA.crt
               mode: 0444
             - key: odimra_servercrt
@@ -56,15 +57,15 @@ spec:
           persistentVolumeClaim:
             claimName: odimra-log-claim
       securityContext:
-        fsGroup: {{ .Values.odimra.groupID }}
+        fsGroup: {{.Values.odimra.groupID}}
       containers:
         - name: composition-service
           env:
             - name: GET_HOSTS_FROM
               value: dns
             - name: ODIM_NAMESPACE
-              value: {{ .Values.odimra.namespace | quote }}
-          image: composition-service:{{ .Values.compositionservice.imageTag }}
+              value: {{.Values.odimra.namespace | quote}}
+          image: composition-service:{{.Values.compositionservice.imageTag}}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 45112
