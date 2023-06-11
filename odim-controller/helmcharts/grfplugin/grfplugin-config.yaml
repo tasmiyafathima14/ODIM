@@ -1,3 +1,4 @@
+---
 grfplugin:
   eventListenerNodePort: 30081
   logPath: /var/log/grfplugin_logs

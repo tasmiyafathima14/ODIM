@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kafka1
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     app: kafka
     instance: kafka1
@@ -22,30 +22,30 @@ spec:
       hostname: kafka1
       subdomain: kafka
       securityContext:
-        fsGroup: {{ .Values.odimra.groupID }}
-        runAsUser: {{ .Values.odimra.userID }}
+        fsGroup: {{.Values.odimra.groupID}}
+        runAsUser: {{.Values.odimra.userID}}
       initContainers:
         - name: init-kafka1
-          image: {{ .Values.odimra.imageRegistryAddress| default  }}busybox:1.33
+          image: {{.Values.odimra.imageRegistryAddress| default}}busybox:1.33
           command: ['sh', '-c', 'sleep 3']
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: "node-role.kubernetes.io/control-plane"
+              - matchExpressions:
+                - key: "node-role.kubernetes.io/control-plane"
                 operator: Exists
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
+            - labelSelector:
               matchExpressions:
                 - key: "instance"
                   operator: In
-                  values: ["kafka2", "kafka3"] 
+                  values: ["kafka2", "kafka3"]
             topologyKey: "kubernetes.io/hostname"
       containers:
         - name: kafka1
-          image: {{ .Values.odimra.imageRegistryAddress| default  }}kafka:{{ .Values.odimra.kafkaImageTag }}
+          image: {{.Values.odimra.imageRegistryAddress| default}}kafka:{{.Values.odimra.kafkaImageTag}}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9092
@@ -102,7 +102,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kafka2
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     app: kafka
     instance: kafka2
@@ -121,22 +121,22 @@ spec:
       hostname: kafka2
       subdomain: kafka
       securityContext:
-        fsGroup: {{ .Values.odimra.groupID }}
-        runAsUser: {{ .Values.odimra.userID }}
+        fsGroup: {{.Values.odimra.groupID}}
+        runAsUser: {{.Values.odimra.userID}}
       initContainers:
         - name: init-kafka2
-          image: {{ .Values.odimra.imageRegistryAddress| default  }}busybox:1.33
+          image: {{.Values.odimra.imageRegistryAddress| default}}busybox:1.33
           command: ['sh', '-c', 'sleep 5']
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: "node-role.kubernetes.io/control-plane"
+              - matchExpressions:
+                - key: "node-role.kubernetes.io/control-plane"
                 operator: Exists
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
+            - labelSelector:
               matchExpressions:
                 - key: "instance"
                   operator: In
@@ -144,7 +144,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       containers:
         - name: kafka2
-          image: {{ .Values.odimra.imageRegistryAddress| default  }}kafka:{{ .Values.odimra.kafkaImageTag }}
+          image: {{.Values.odimra.imageRegistryAddress| default}}kafka:{{.Values.odimra.kafkaImageTag}}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9092
@@ -201,7 +201,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kafka3
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     app: kafka
     instance: kafka3
@@ -220,22 +220,22 @@ spec:
       hostname: kafka3
       subdomain: kafka
       securityContext:
-        fsGroup: {{ .Values.odimra.groupID }}
-        runAsUser: {{ .Values.odimra.userID }}
+        fsGroup: {{.Values.odimra.groupID}}
+        runAsUser: {{.Values.odimra.userID}}
       initContainers:
         - name: init-kafka3
-          image: {{ .Values.odimra.imageRegistryAddress| default  }}busybox:1.33
+          image: {{.Values.odimra.imageRegistryAddress| default}}busybox:1.33
           command: ['sh', '-c', 'sleep 7']
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: "node-role.kubernetes.io/control-plane"
+              - matchExpressions:
+                - key: "node-role.kubernetes.io/control-plane"
                 operator: Exists
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
+            - labelSelector:
               matchExpressions:
                 - key: "instance"
                   operator: In
@@ -243,7 +243,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       containers:
         - name: kafka3
-          image: {{ .Values.odimra.imageRegistryAddress| default  }}kafka:{{ .Values.odimra.kafkaImageTag }}
+          image: {{.Values.odimra.imageRegistryAddress| default}}kafka:{{ .Values.odimra.kafkaImageTag}}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9092

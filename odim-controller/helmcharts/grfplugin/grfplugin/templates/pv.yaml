@@ -3,7 +3,7 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: grfplugin-log
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     type: local
 spec:
@@ -13,7 +13,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   claimRef:
-    namespace: {{ .Values.odimra.namespace }}
+    namespace: {{.Values.odimra.namespace}}
     name: grfplugin-log-claim
   hostPath:
-    path: {{ .Values.grfplugin.logPath }}
+    path: {{.Values.grfplugin.logPath}}
