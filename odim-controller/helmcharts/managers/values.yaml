@@ -1,5 +1,6 @@
+---
 odimra:
   namespace:
   groupID:
-  haDeploymentEnabled:        
+  haDeploymentEnabled:
   managersImageTag: "5.0"

@@ -1,10 +1,11 @@
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: odimra-rolebinding
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
 subjects:
-- kind: ServiceAccount
+  - kind: ServiceAccount
   name: odimra
 roleRef:
   kind: Role

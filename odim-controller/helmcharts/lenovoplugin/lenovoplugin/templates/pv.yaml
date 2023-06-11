@@ -3,7 +3,7 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: lenovoplugin-log
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     type: local
 spec:
@@ -13,7 +13,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   claimRef:
-    namespace: {{ .Values.odimra.namespace }}
+    namespace: {{.Values.odimra.namespace}}
     name: lenovoplugin-log-claim
   hostPath:
-    path: {{ .Values.lenovoplugin.logPath }}
+    path: {{.Values.lenovoplugin.logPath}}

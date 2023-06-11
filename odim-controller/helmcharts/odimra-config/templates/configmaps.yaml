@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: odimra-config
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
 data:
   odimra_config.json: |
     {
@@ -92,7 +92,7 @@ data:
     			"Chassis",
     			"LogServices",
                         "Managers",
-    			"WorkloadPerformanceAdvisor"                
+    			"WorkloadPerformanceAdvisor"
     		],
                 "SkipResourceListUnderManager": [
     			"Systems",

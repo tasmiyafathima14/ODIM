@@ -1,12 +1,13 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: licenses
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   annotations:
     secret.reloader.stakater.com/reload: "odimra-secret"
 spec:
-  replicas: {{ .Values.ReplicaCount | default 1 }}
+  replicas: {{.Values.ReplicaCount | default 1}}
   selector:
     matchLabels:
       app: licenses
@@ -16,7 +17,7 @@ spec:
         app: licenses
       name: dapi-envars-fieldref
       annotations:
-        rollme: {{ randAlphaNum 5 | quote }}
+        rollme: {{randAlphaNum 5 | quote}}
     spec:
       topologySpreadConstraints:
         - maxSkew: 3
@@ -24,13 +25,13 @@ spec:
           whenUnsatisfiable: ScheduleAnyway
           labelSelector:
             matchLabels:
-              app: licenses      
+              app: licenses
       hostname: licenses
       volumes:
         - name: odimra-config-vol
           projected:
             sources:
-            - configMap:
+              - configMap:
                 name: odimra-config
             - configMap:
                 name: odimra-platformconfig
@@ -38,14 +39,14 @@ spec:
           configMap:
             name: configure-hosts
             items:
-            - key: hosts
+              - key: hosts
               path: host.append
               mode: 0644
         - name: odimra-secret
           secret:
             secretName: odimra-secret
             items:
-            - key: rootCAcrt
+              - key: rootCAcrt
               path: rootCA.crt
               mode: 0444
             - key: odimra_servercrt
@@ -66,28 +67,28 @@ spec:
             - key: redis_ondisk_password
               path: redis_ondisk_password
               mode: 0444
-            {{- if eq .Values.odimra.messageBusType "Kafka" }}
+            {{- if eq .Values.odimra.messageBusType "Kafka"}}
             - key: odimra_kafka_clientcrt
               path: odimra_kafka_client.crt
               mode: 0444
             - key: odimra_kafka_clientkey
               path: odimra_kafka_client.key
               mode: 0444
-            {{- end }}
+            {{- end}}
         - name: odimra-log
           persistentVolumeClaim:
             claimName: odimra-log-claim
       securityContext:
-        fsGroup: {{ .Values.odimra.groupID }}
+        fsGroup: {{.Values.odimra.groupID}}
       containers:
         - name: licenses
           env:
             - name: GET_HOSTS_FROM
               value: dns
             - name: HA_ENABLED
-              value: {{ .Values.odimra.haDeploymentEnabled | quote }}
+              value: {{.Values.odimra.haDeploymentEnabled | quote}}
             - name: ODIM_NAMESPACE
-              value: {{ .Values.odimra.namespace | quote }}
+              value: {{.Values.odimra.namespace | quote}}
             - name: HOST_NAME
               valueFrom:
                 fieldRef:
@@ -96,7 +97,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-          image: {{ .Values.odimra.imageRegistryAddress| default  }}licenses:{{ .Values.odimra.licensesImageTag }}
+          image: {{.Values.odimra.imageRegistryAddress| default}}licenses:{{.Values.odimra.licensesImageTag}}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 45113

@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: lenovoplugin
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     app: lenovoplugin
 spec:
@@ -16,17 +16,17 @@ apiVersion: v1
 kind: Service
 metadata:
   name: lenovoplugin-events
-  namespace: {{ .Values.odimra.namespace }}
+  namespace: {{.Values.odimra.namespace}}
   labels:
     app: lenovoplugin
 spec:
   type: NodePort
   ports:
-  - port: 45010
-    nodePort: {{ .Values.lenovoplugin.eventListenerNodePort }}
+    - port: 45010
+    nodePort: {{.Values.lenovoplugin.eventListenerNodePort}}
     protocol: TCP
-  {{ if eq .Values.odimra.haDeploymentEnabled false }}
+  {{ if eq .Values.odimra.haDeploymentEnabled false}}
   externalTrafficPolicy: Local
-  {{ end }}
+  {{end}}
   selector:
     app: lenovoplugin

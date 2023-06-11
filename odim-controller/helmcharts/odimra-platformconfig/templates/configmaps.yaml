@@ -1,10 +1,11 @@
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: odimra-platformconfig
-  namespace: {{ .Values.odimra.namespace }}
-data: 
-  platformconfig.toml: | 
+  namespace: {{.Values.odimra.namespace}}
+data:
+  platformconfig.toml: |
     {{ if eq .Values.odimra.messageBusType "Kafka" }}
     [KAFKA]
     # Kafka Server List.
