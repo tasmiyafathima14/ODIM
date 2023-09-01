@@ -27,5 +27,5 @@ type Collection struct {
 	MemberNavigationLink  string                 `json:"Members@odata.navigationLink,omitempty"`
 	Oem                   interface{}            `json:"Oem,omitempty"`
 	MembersNextLink       string                 `json:"Members@odata.nextLink,omitempty"`
-	CollectionCapabilitie CollectionCapabilities `json:"@Redfish.CollectionCapabilities,omitempty"`
+	CollectionCapabilitie *CollectionCapabilities `json:"@Redfish.CollectionCapabilities,omitempty"`
 }
